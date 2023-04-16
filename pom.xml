@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>lu.easybi</groupId>
+  <artifactId>maven-liquibase</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>maven-liquibase</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.liquibase</groupId>
+          <artifactId>liquibase-maven-plugin</artifactId>
+          <version>4.20.0</version>
+          <configuration>
+            <url>${url}</url>
+            <password>${password}</password>
+            <!--set
+            location of a properties file to use-->
+            <propertyFile>liquibase.properties</propertyFile>
+            <changeLogFile>src\main\resources\masterChangeLog.xml</changeLogFile>
+          </configuration>
+          <dependencies>
+            <!--database-specific
+            plugin-->
+            <dependency>
+              <groupId>org.liquibase.ext</groupId>
+              <artifactId>liquibase-postgresql</artifactId>
+              <version>4.20.0</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <extensions>
+      <!-- This extension link settings.server to ${} variable-->
+      <extension>
+        <groupId>com.github.shyiko.servers-maven-extension</groupId>
+        <artifactId>servers-maven-extension</artifactId>
+        <version>1.3.1</version>
+      </extension>
+    </extensions>
+
+  </build>
+  <profiles>
+    <!-- dev profiles-->
+    <profile><id>dev</id><properties><url>jdbc:postgresql://localhost:5432/dev</url></properties></profile>
+    <profile><id>dev.schema1</id><properties><password>${settings.servers.dev.schema1.password}</password></properties></profile>
+    <profile><id>dev.schema2</id><properties><password>${settings.servers.dev.schema2.password}</password></properties></profile>
+
+    <!-- test profiles-->
+    <profile><id>test</id><properties><url>jdbc:postgresql://localhost:5432/test</url></properties></profile>
+    <profile><id>test.schema1</id><properties><password>${settings.servers.test.schema1.password}</password></properties></profile>
+    <profile><id>test.schema2</id><properties><password>${settings.servers.test.schema2.password}</password></properties></profile>
+
+    <!-- prod profiles-->
+    <profile><id>prod</id><properties><url>jdbc:postgresql://localhost:5432/prod</url></properties></profile>
+    <profile><id>prod.schema1</id><properties><password>${settings.servers.prod.schema1.password}</password></properties></profile>
+    <profile><id>prod.schema2</id><properties><password>${settings.servers.prod.schema2.password}</password></properties></profile>
+  </profiles>
+</project>
