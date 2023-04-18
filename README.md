@@ -1,15 +1,16 @@
 
-# <p align="left">Maven liquibase project using pure SQL files</p>
+# <p align="left">Maven liquibase project using pure SQL files on postgresql database</p>
   
     
 ## 🧐 Features    
 - Using one SQL files for update AND rollback
-- All password are encrypted using maven encryption capability
-- Liquibase best practice for multi schema
-- Windows shell script for launching liquibase actions on a specific database you passed in parameters on all schema we specify in **script\conf\all_schema.txt** file
-- Docker compose file for multi database environment simulation (dev, text, prod)
+- All password are encrypted using maven encryption capability and store outside the source versioning
+- Multi schema management
+- Windows shell script for launching liquibase actions on specific DB you passed in parameters looping on all schema we specify in **script\conf\all_schema.txt** file
+- Docker compose file for multi DB environment simulation (dev, test, prod)
         
 ## 🛠️ Tech Stack
+- [Postgres SQL](https://www.postgresql.org)
 - [Liquibase](https://www.liquibase.org/)
 - [Maven](https://maven.apache.org/)
 - [Maven extension for encryption](https://github.com/shyiko/servers-maven-extension)
@@ -20,6 +21,11 @@ mvnw clean install
 ```
         
 ## 🧑🏻‍💻 Usage
+### Docker
+```bash
+$ docker compose -f "docker\docker-compose.yml" up -d --build
+```
+Then open http://localhost:8080 in a browser for Adminer, the **docker\schema\init-user-db.sh** script was creating three databases (dev, test, prod) with 2 schemas in each environment (schema1, schema2)
 
 ### Maven encryption
 
@@ -46,12 +52,15 @@ Paste it into **%USERPROFILE%\.m2\settings.xml* (same way for schema2)
 
 ```xml
   <servers>
-	<server>
+	  <server>
         <id>dev.schema1</id>
-        <password>{P2KqUTJBnCQHi3WPUqKA3OPxwr9F6dWwLyhSta9BS5A=}</password></server>
-	<server>
+        <password>{P2KqUTJBnCQHi3WPUqKA3OPxwr9F6dWwLyhSta9BS5A=}</password>
+    </server>
+	  <server>
         <id>dev.schema2</id>
-        <password>{5dlX23v5W2AH+2oXNpupBPdEJL56fJ39wo/n4plbgzI=}</password></server>
+        <password>{5dlX23v5W2AH+2oXNpupBPdEJL56fJ39wo/n4plbgzI=}</password>
+    </server>
+    ...
   </servers>
 
 ```
