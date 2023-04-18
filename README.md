@@ -12,7 +12,7 @@
 ## 🛠️ Tech Stack
 - [Liquibase](https://www.liquibase.org/)
 - [Maven](https://maven.apache.org/)
-- [Maven extension](https://github.com/shyiko/servers-maven-extension)
+- [Maven extension for encryption](https://github.com/shyiko/servers-maven-extension)
     
 ## 🛠️ Install Dependencies    
 ```bash
@@ -60,23 +60,23 @@ Paste it into **%USERPROFILE%\.m2\settings.xml* (same way for schema2)
 ### Liquibase
 Check **script\bin** directory for all cmd windows shell script.
 
-*TODO* the action list is not complete, add additional scripts
+*TODO* The action list is not complete, add additional scripts for each actions
 
-* script\bin\liquibase-dropAll.cmd
-    Drop all database objects
-* script\bin\liquibase-status.cmd
-    Get the status of the database versus SQL files
-* script\bin\liquibase-update.cmd
-    Launch and validate the update (moving forward)
-* script\bin\liquibase-rollback.cmd
-    Launch a rollback (moving backward)
-* ...
+|script|Usage|
+|-|-|
+|script\bin\liquibase-dropAll.cmd|Drop all database objects|
+|script\bin\liquibase-status.cmd| Get the status of the database versus SQL files|
+|cript\bin\liquibase-update.cmd|Launch and validate the update (moving forward)|
+|cript\bin\liquibase-rollback.cmd|Launch a rollback (moving backward)|
+|...|...|
+
+For rollback, the parameter (rollbackCount) can be change in **.mvn\maven.config** file
 
 These scripts call **script\bin\liquibase-generic.cmd** with two parameters -> a *context* and a *maven profile*
 
-Example
-
 ```bash
+Example
+-------
 $ script\bin\liquibase-status.cmd dev dev
 
 ACTION = status
@@ -90,7 +90,7 @@ Launch the status action filtering SQL files with dev context tag on all schemas
 ## 🙇 Useful links
 - [Liquibase getting started](https://docs.liquibase.com/start/get-started/liquibase-sql.html)    
 - [Liquibase best practices](https://docs.liquibase.com/concepts/bestpractices.html)
-- [All maven goal](https://docs.liquibase.com/tools-integrations/maven/commands/home.html)
+- [All liquibase maven goal](https://docs.liquibase.com/tools-integrations/maven/commands/home.html)
 
         
 ## 🍰 Contributing    
